@@ -3,15 +3,6 @@ from .models import *
 from hitcount.models import HitCount
 
 
-class HitCountSerializerField(serializers.Field):
-    def to_representation(self, instance):
-        return (
-            instance.hit_count_generic.get().hits
-            if instance.hit_count_generic.exists()
-            else 0
-        )
-
-
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogCategory
@@ -25,7 +16,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-    hit_count = HitCountSerializerField(source="*")
     comments = CommentSerializer(many=True)
     category = CategorySerializer()
 
@@ -37,7 +27,6 @@ class ArticleSerializer(serializers.ModelSerializer):
             "date",
             "author",
             "slug",
-            "hit_count",
             "comments",
             "category",
         ]
