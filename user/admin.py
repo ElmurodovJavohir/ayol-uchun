@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
-from .models import User
+from .models import User, Job
 from .forms import UserCreationForm, UserChangeForm, UserPasswordChageForm
 
 
@@ -13,6 +13,7 @@ class UserAdmin(BaseUserAdmin):
     change_password_form = UserPasswordChageForm
     form = UserChangeForm
     add_form = UserCreationForm
+
     list_display = [
         'first_name',
         'last_name',
@@ -81,3 +82,4 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(User, UserAdmin)
+admin.site.register(Job)
