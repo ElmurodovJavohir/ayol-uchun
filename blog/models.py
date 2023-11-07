@@ -2,8 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils.text import slugify
-from utils.models import BaseModel
-from hitcount.models import HitCountMixin, HitCount
+from hitcount.models import HitCount
 from django.contrib.contenttypes.fields import GenericRelation
 
 
@@ -26,13 +25,17 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=255)
     body = RichTextField()
-    date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
     )
     slug = models.SlugField(unique=True, editable=False)
     category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE)
+    hit_count_generic = GenericRelation(
+        HitCount,
+        object_id_field="object_pk",
+        related_query_name="hit_count_generic_relation",
+    )
 
     def __str__(self):
         return self.title

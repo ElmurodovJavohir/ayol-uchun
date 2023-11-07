@@ -3,30 +3,39 @@ from .models import *
 from hitcount.models import HitCount
 
 
-class CategorySerializer(serializers.ModelSerializer):
+class BlogCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogCategory
-        fields = "__all__"
+        fields = ("title", "slug")
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class BlogCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = "__all__"
 
 
+class HitCountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HitCount
+        fields = ["hits"]
+
+
 class ArticleSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True)
-    category = CategorySerializer()
+    hit_count = HitCountSerializer(source="hit_count_generic")
+    comments = BlogCommentSerializer(many=True)
+    category = BlogCategorySerializer()
 
     class Meta:
         model = Article
         fields = [
+            "created_at",
+            "updated_at",
             "title",
             "body",
-            "date",
             "author",
             "slug",
             "comments",
             "category",
+            "hit_count",
         ]

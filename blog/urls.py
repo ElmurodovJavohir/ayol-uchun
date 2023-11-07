@@ -9,6 +9,7 @@ urlpatterns = [
     # path("new/", ArticleCreateView.as_view(), name="article_new"),
     # path("", ArticleListView.as_view(), name="article_list"),
     # API urls
+    path("categorys/", BlogCategoryAPIView.as_view(), name="blog-categorys"),
     path("", ArticleListAPIView.as_view(), name="article-list"),
     path(
         "<slug:slug>/",

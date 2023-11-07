@@ -1,7 +1,7 @@
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from .models import *
 from hitcount.views import HitCountDetailView
@@ -13,6 +13,7 @@ from rest_framework.generics import (
     DestroyAPIView,
 )
 from .serializers import *
+from rest_framework import permissions
 
 
 class ArticleListView(ListView):
@@ -65,6 +66,12 @@ class ArticleCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return self.request.user.is_superuser
 
 
+#### API Views
+class BlogCategoryAPIView(ListAPIView):
+    queryset = BlogCategory.objects.all()
+    serializer_class = BlogCategorySerializer
+
+
 class ArticleListAPIView(ListAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
@@ -82,14 +89,17 @@ class ArticleDetailAPIView(RetrieveAPIView):
 
 class ArticleCreateAPIView(CreateAPIView):
     queryset = Article.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = ArticleSerializer
 
 
 class ArticleUpdateAPIView(UpdateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class AdsDeleteAPIView(DestroyAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    permission_classes = [permissions.IsAuthenticated]
