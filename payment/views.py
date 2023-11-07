@@ -24,6 +24,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializer import CardInformationSerializer
+from stripe.error import StripeError
 import stripe
 
 class PaymentAPI(APIView):
@@ -43,7 +44,7 @@ class PaymentAPI(APIView):
             except Course.DoesNotExist:
                 return Response({'detail': 'Course not found.'}, status=status.HTTP_NOT_FOUND)
 
-            stripe.api_key = 'your-key-goes-here'
+            stripe.api_key = 'sk_test_51O9vs5BVPCMSCWGtmhwjyZMiaG39TuwofBzjJZCe11BvNzMvc4Wln5DtwqKYZWjhb7sQhAWQEE80IX0TQ0jgyJ0700qIclt9aU'
             response = self.stripe_card_payment(data_dict=data_dict, price=price)
 
             if response.get('status') == status.HTTP_200_OK:
@@ -86,7 +87,7 @@ class PaymentAPI(APIView):
                 )
                 payment_intent_modified = stripe.PaymentIntent.retrieve(payment_intent['id'])
 
-            except stripe.StripeError as e:
+            except StripeError as e:
                 payment_intent_modified = stripe.PaymentIntent.retrieve(payment_intent['id'])
                 payment_confirm = {
                     "stripe_payment_error": "Failed",
@@ -111,7 +112,7 @@ class PaymentAPI(APIView):
                     "payment_intent": payment_intent_modified,
                     "payment_confirm": payment_confirm
                 }
-        except stripe.StripeError as e:
+        except StripeError as e:
             response = {
                 'error': str(e),
                 'status': status.HTTP_400_BAD_REQUEST,

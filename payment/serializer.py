@@ -27,7 +27,7 @@ def check_expiry_month(value):
 def check_expiry_year(value):
     current_year = datetime.datetime.now().year
     if not int(value) >= current_year:
-        raise serializers.ValidationError("Invalid expiry year.")
+        raise serializers.ValidationError("Invalid expiry year. Year must be in the future.")
 
 def check_cvc(value):
     if not 3 <= len(value) <= 4:
