@@ -42,9 +42,10 @@ INSTALLED_APPS = [
     "rest_framework",
     "user",
     "blog",
-    'common',
-    'courses',
-    'notification',
+    "common",
+    "courses",
+    "notification",
+    "hitcount",
 ]
 
 MIDDLEWARE = [
@@ -84,7 +85,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, 'db.sqlite3'),
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
@@ -128,11 +129,11 @@ AUTH_USER_MODEL = "user.User"
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
@@ -162,3 +163,5 @@ CKEDITOR_CONFIGS = {
 CKEDITOR_RESTRICT_BY_USER = True
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

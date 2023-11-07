@@ -1,16 +1,27 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from .models import *
+from hitcount.views import HitCountDetailView
+from rest_framework.generics import (
+    ListAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+    CreateAPIView,
+    DestroyAPIView,
+)
+from .serializers import *
 
 
 class ArticleListView(ListView):
     model = Article
 
 
-class ArticleDetailView(DetailView):
+class ArticleDetailView(HitCountDetailView):
     model = Article
+    count_hit = True
 
 
 class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -52,3 +63,33 @@ class ArticleCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     # user superuser ekanini tekshirish
     def test_func(self):
         return self.request.user.is_superuser
+
+
+class ArticleListAPIView(ListAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+
+
+class ArticleDetailAPIView(RetrieveAPIView):
+    serializer_class = ArticleSerializer
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        article_slug = self.kwargs.get("slug")
+
+        return Article.objects.filter(slug=article_slug)
+
+
+class ArticleCreateAPIView(CreateAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+
+
+class ArticleUpdateAPIView(UpdateAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+
+
+class AdsDeleteAPIView(DestroyAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer

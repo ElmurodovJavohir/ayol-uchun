@@ -2,6 +2,9 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils.text import slugify
+from utils.models import BaseModel
+from hitcount.models import HitCountMixin, HitCount
+from django.contrib.contenttypes.fields import GenericRelation
 
 
 class BlogCategory(models.Model):
@@ -19,6 +22,8 @@ class BlogCategory(models.Model):
 
 
 class Article(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=255)
     body = RichTextField()
     date = models.DateTimeField(auto_now_add=True)
@@ -27,6 +32,7 @@ class Article(models.Model):
         on_delete=models.CASCADE,
     )
     slug = models.SlugField(unique=True, editable=False)
+    category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -52,9 +58,12 @@ class BlogImages(models.Model):
 
 
 class Comment(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(
         Article, on_delete=models.CASCADE, related_name="comments"
     )
+
     comment = models.CharField(max_length=150)
     author = models.ForeignKey(
         get_user_model(),
