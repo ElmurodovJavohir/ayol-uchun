@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import *
-from hitcount.models import HitCount
 
 
 class BlogCategorySerializer(serializers.ModelSerializer):
@@ -15,14 +14,7 @@ class BlogCommentSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class HitCountSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = HitCount
-        fields = ["hits"]
-
-
 class ArticleSerializer(serializers.ModelSerializer):
-    hit_count = HitCountSerializer(source="hit_count_generic")
     comments = BlogCommentSerializer(many=True)
     category = BlogCategorySerializer()
 
@@ -37,5 +29,5 @@ class ArticleSerializer(serializers.ModelSerializer):
             "slug",
             "comments",
             "category",
-            "hit_count",
+            # "hit_count",
         ]

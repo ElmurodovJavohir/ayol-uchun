@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "common",
     "courses",
     "notification",
-    "hitcount",
 ]
 
 MIDDLEWARE = [

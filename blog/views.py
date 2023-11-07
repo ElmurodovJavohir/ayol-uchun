@@ -80,6 +80,7 @@ class ArticleListAPIView(ListAPIView):
 class ArticleDetailAPIView(RetrieveAPIView):
     serializer_class = ArticleSerializer
     lookup_field = "slug"
+    count_hit = True
 
     def get_queryset(self):
         article_slug = self.kwargs.get("slug")
