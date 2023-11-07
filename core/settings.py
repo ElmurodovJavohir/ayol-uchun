@@ -127,12 +127,13 @@ AUTH_USER_MODEL = "user.User"
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [str(BASE_DIR.join("static"))]
-STATIC_ROOT = str(BASE_DIR.join("staticfiles"))  # new
+STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]
+STATIC_ROOT = str(BASE_DIR.joinpath("staticfiles"))
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = str(BASE_DIR.join("media"))
+MEDIA_ROOT = str(BASE_DIR.joinpath("media"))
 
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # CKEDITOR SETTINGS
 CKEDITOR_CONFIGS = {
