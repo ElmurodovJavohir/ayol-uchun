@@ -1,7 +1,7 @@
 from django.db import models
 from user.models import User
 from utils.models import BaseModel
-
+from uuid import uuid4
 class Course(BaseModel):
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -29,7 +29,12 @@ class Certificate(BaseModel):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     issued_at = models.DateTimeField(auto_now_add=True)
-    certificate_identifier = models.CharField(max_length=50, unique=True)
+    certificate_identifier = models.CharField(max_length=88, unique=True, editable=False)
+
+    def save(self, *args, **kwargs):
+        if not self.certificate_identifier:
+            self.certificate_identifier = str(uuid4())
+        super(Certificate, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"Certificate for {self.user.first_name} - {self.course.title}"
@@ -43,3 +48,14 @@ class CourseRating(BaseModel):
 
     def __str__(self):
         return f"Rating by {self.user.first_name} on {self.course.title}"
+
+class CourseCompletion(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    completion_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"Course user: {self.user.first_name}"
+
+    def has_completed_course(self, user, course):
+        return CourseCompletion.objects.filter(user=user, course=course).exists()

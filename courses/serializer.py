@@ -1,11 +1,12 @@
 from rest_framework import serializers
-from .models import Course, Video, Certificate, CourseRating
+from .models import Course, Video, Certificate, CourseRating, CourseCompletion
 from user.serailizer import UserSerializer
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
+        ordering = ['-created_at']
 
 class VideoSerializer(serializers.ModelSerializer):
     course = CourseSerializer()
@@ -26,4 +27,12 @@ class CourseRatingSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = CourseRating
+        fields = '__all__'
+
+class CourseCompletionSerializer(serializers.Serializer):
+    course = CourseSerializer()
+    user = UserSerializer()
+
+    class Meta:
+        model = CourseCompletion
         fields = '__all__'

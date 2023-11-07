@@ -62,6 +62,6 @@ class OrderDetailView(RetrieveAPIView):
     serializer_class = OrderSerializer
 
     def get_queryset(self, order_id):
-        order_id = self.kwargs.get("order_id")
+        order_id = self.kwargs.get("pk")
 
         return Order.objects.filter(order_id=order_id)
