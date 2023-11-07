@@ -9,7 +9,7 @@ class JobSerailzier(serializers.ModelSerializer):
         fields = ['title']
 
 
-class UserSerailzier(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     phone_number = serializers.ReadOnlyField()
     job = JobSerailzier()
 

@@ -7,5 +7,7 @@ pytz==2023.3.post1
 djangorestframework-simplejwt==5.3.0
 django-rest-swagger==2.2.0
 drf-yasg==1.21.7
+payme-pkg==2.6.3
+environs==9.5.0
 sqlparse
 typing_extensions

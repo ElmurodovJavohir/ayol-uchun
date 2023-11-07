@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+from environs import Env
 import os
+
+
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -49,6 +53,7 @@ INSTALLED_APPS = [
     "django_filters",
     "rest_framework_swagger",
     "drf_yasg",
+    'payme',
 ]
 
 MIDDLEWARE = [
@@ -167,3 +172,12 @@ CKEDITOR_CONFIGS = {
 CKEDITOR_RESTRICT_BY_USER = True
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+PAYME: dict = {
+    'PAYME_ID': env.str("PAYME_ID"),
+    'PAYME_KEY': env.str("PAYME_KEY"),
+    'PAYME_URL': env.str("PAYME_URL"),
+    'PAYME_CALL_BACK_URL': env.str("PAYME_CALL_BACK_URL"),
+    'PAYME_MIN_AMOUNT': env.int("PAYME_MIN_AMOUNT", default=0),
+    'PAYME_ACCOUNT': env.str("PAYME_ACCOUNT"),
+}

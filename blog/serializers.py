@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import *
-
+from user.serailizer import UserSerializer
 
 class BlogCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,6 +9,7 @@ class BlogCategorySerializer(serializers.ModelSerializer):
 
 
 class BlogCommentSerializer(serializers.ModelSerializer):
+    author = UserSerializer()
     class Meta:
         model = Comment
         fields = "__all__"
@@ -24,7 +25,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     comments = BlogCommentSerializer(many=True)
     category = BlogCategorySerializer()
     image = BlogImageSerializer(many=True)
-
+    author = UserSerializer()
     class Meta:
         model = Article
         fields = [
