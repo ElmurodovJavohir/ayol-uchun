@@ -7,8 +7,15 @@ from django.utils.text import slugify
 class BlogCategory(models.Model):
     title = models.CharField(max_length=128)
 
-    def __str__(self) -> str:
+    slug = models.SlugField(unique=True, editable=False, null=True)
+
+    def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 
 class Article(models.Model):
@@ -26,7 +33,13 @@ class Article(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)
+            self.slug = base_slug
+            num = 1
+            while Article.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+                self.slug = f"{base_slug}-{num}"
+                num += 1
+
         super().save(*args, **kwargs)
 
 
