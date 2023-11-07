@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from ckeditor.fields import RichTextField
+from django.utils.text import slugify
 
 
 class BlogCategory(models.Model):
@@ -18,9 +19,15 @@ class Article(models.Model):
         get_user_model(),
         on_delete=models.CASCADE,
     )
+    slug = models.SlugField(unique=True, editable=False)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 
 class BlogImages(models.Model):

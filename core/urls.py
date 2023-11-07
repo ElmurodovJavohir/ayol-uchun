@@ -20,8 +20,8 @@ from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("user.urls"))
-    # path("blog/",include("blog.urls"))
+    path("", include("user.urls")),
+    path("blog/", include("blog.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
