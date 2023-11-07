@@ -16,22 +16,18 @@ class GenderChoise(models.Choices):
     FEMALE = 'Ayol'
 
 
-
-
 class User(AbstractBaseUser):
     gender = models.CharField(
         max_length=255, choices=GenderChoise.choices, default=GenderChoise.FEMALE)
-    
-    first_name=models.CharField(max_length=50,null=True,blank=True)
-    last_name=models.CharField(max_length=50,null=True,blank=True)
-    
-    
+
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
 
-
-    birth_day = models.DateField()
+    birth_day = models.DateField(blank=True, null=True)
     phone_number = models.CharField(max_length=15, unique=True)
     email = models.EmailField(null=True, blank=True)
 
@@ -75,6 +71,3 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_superuser
-    
-
-
