@@ -1,4 +1,3 @@
-from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView
@@ -13,6 +12,7 @@ from rest_framework.generics import (
 )
 from .serializers import *
 from rest_framework import permissions
+import django_filters
 
 
 class ArticleListView(ListView):
@@ -74,6 +74,12 @@ class BlogCategoryAPIView(ListAPIView):
 class ArticleListAPIView(ListAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    filterset_fields = ["category", "author"]
+    search_fields = [
+        "title",
+        "body",
+    ]
+    ordering_fields = ["created_at"]
 
 
 class ArticleDetailAPIView(RetrieveAPIView):
