@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'ckeditor',
+    'ckeditor_uploader',
     'rest_framework',
 
     'user'
@@ -139,4 +140,19 @@ STATIC_ROOT = str(BASE_DIR.joinpath("staticfiles"))  # new
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = str(BASE_DIR.joinpath("media"))
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+#CKEDITOR SETTINGS
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source']
+        ]
+    }
+}
+CKEDITOR_RESTRICT_BY_USER = True
 CKEDITOR_UPLOAD_PATH = "uploads/"
