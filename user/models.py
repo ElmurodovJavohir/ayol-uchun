@@ -29,7 +29,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
-    username = None
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

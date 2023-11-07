@@ -1,10 +1,9 @@
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from .models import *
-from hitcount.views import HitCountDetailView
 from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
@@ -20,7 +19,7 @@ class ArticleListView(ListView):
     model = Article
 
 
-class ArticleDetailView(HitCountDetailView):
+class ArticleDetailView(DetailView):
     model = Article
     count_hit = True
 
@@ -80,6 +79,7 @@ class ArticleListAPIView(ListAPIView):
 class ArticleDetailAPIView(RetrieveAPIView):
     serializer_class = ArticleSerializer
     lookup_field = "slug"
+    count_hit = True
 
     def get_queryset(self):
         article_slug = self.kwargs.get("slug")
