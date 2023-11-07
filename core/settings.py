@@ -44,7 +44,7 @@ j
     'user'
     "blog",
     'common',
-
+    'courses'
 ]
 
 MIDDLEWARE = [
@@ -128,11 +128,11 @@ AUTH_USER_MODEL = 'user.User'
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]
-STATIC_ROOT = str(BASE_DIR.joinpath("staticfiles"))  # new
+STATICFILES_DIRS = [str(BASE_DIR.join("static"))]
+STATIC_ROOT = str(BASE_DIR.join("staticfiles"))  # new
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = str(BASE_DIR.joinpath("media"))
+MEDIA_ROOT = str(BASE_DIR.join("media"))
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
 #CKEDITOR SETTINGS
