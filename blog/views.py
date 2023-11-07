@@ -6,8 +6,8 @@ from .models import *
 from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
-    RetrieveUpdateAPIView,
-    RetrieveDestroyAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
     ListCreateAPIView,
 )
 from .serializers import *
@@ -99,14 +99,14 @@ class ArticleCreateAPIView(ListCreateAPIView):
     serializer_class = ArticleSerializer
 
 
-class ArticleUpdateAPIView(RetrieveUpdateAPIView):
+class ArticleUpdateAPIView(UpdateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     lookup_field = "slug"
     # permission_classes = [permissions.IsAuthenticated]
 
 
-class ArticleDeleteAPIView(RetrieveDestroyAPIView):
+class ArticleDeleteAPIView(DestroyAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     lookup_field = "slug"
