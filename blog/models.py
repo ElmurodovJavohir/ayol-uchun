@@ -3,6 +3,19 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils.text import slugify
 
+class IpAddress(models.Model):
+    ip = models.CharField(max_length=255)
+
+    def get_client_ip(self):
+        x_forwarded_for = self.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[-1].strip()
+        else:
+            ip = self.META.get('REMOTE_ADDR')
+        return ip
+
+    def __str__(self):
+        return self.ip
 
 class BlogCategory(models.Model):
     title = models.CharField(max_length=128)
@@ -29,6 +42,7 @@ class Article(models.Model):
     )
     slug = models.SlugField(unique=True, editable=False)
     category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE)
+    views = models.ManyToManyField(IpAddress,blank=True)
 
     def __str__(self):
         return self.title

@@ -14,6 +14,14 @@ from .serializers import *
 from rest_framework import permissions
 import django_filters
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 
 class ArticleListView(ListView):
     model = Article
@@ -92,6 +100,21 @@ class ArticleDetailAPIView(RetrieveAPIView):
 
         return Article.objects.filter(slug=article_slug)
 
+    def get(self, request, *args, **kwargs):
+        # Get the client's IP address
+        ip = get_client_ip(request)
+
+        # Retrieve the article
+        article = self.get_object()
+
+        # Check if the IP address has already viewed the article
+        if IpAddress.objects.filter(ip=ip).exists():
+            article.views.add(IpAddress.objects.get(ip=ip))
+        else:
+            IpAddress.objects.create(ip=ip)
+            article.views.add(IpAddress.objects.get(ip=ip))
+
+        return super().get(request, *args, **kwargs)
 
 class ArticleCreateAPIView(CreateAPIView):
     queryset = Article.objects.all()

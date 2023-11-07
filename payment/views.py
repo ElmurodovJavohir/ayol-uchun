@@ -1,58 +1,8 @@
-from django.db.models.query import QuerySet
-from payme.views import MerchantAPIView
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from .serializer import GeneratePayLinkSerializer, OrderSerializer
-from payme.methods.generate_link import GeneratePayLink
-from drf_yasg.utils import swagger_auto_schema
+from django.shortcuts import get_object_or_404
+from .serializer import OrderSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .models import Order
-class PaymeCallBackAPIView(MerchantAPIView):
-    def create_transaction(self, order_id, action, *args, **kwargs) -> None:
-        return (f"create_transaction for order_id: {order_id}, response: {action}")
-
-    def perform_transaction(self, order_id, action, *args, **kwargs) -> None:
-        return (f"perform_transaction for order_id: {order_id}, response: {action}")
-
-    def cancel_transaction(self, order_id, action, *args, **kwargs) -> None:
-        return (f"cancel_transaction for order_id: {order_id}, response: {action}")
-
-class GeneratePayLinkAPIView(APIView):
-    @swagger_auto_schema(
-        request_body=GeneratePayLinkSerializer,
-        responses={200: "{'pay_link': str}"}
-    )
-    def post(self, request, *args, **kwargs):
-        """
-        Generate a payment link for the given order ID and amount.
-
-        Request parameters:
-            - order_id (int): The ID of the order to generate a payment link for.
-            - amount (int): The amount of the payment.
-
-        Example request:
-            curl -X POST \
-                'http://your-host/shop/pay-link/' \
-                --header 'Content-Type: application/json' \
-                --data-raw '{
-                "order_id": 999,
-                "amount": 999
-            }'
-
-        Example response:
-            {
-                "pay_link": "http://payme-api-gateway.uz/bT0jcmJmZk1vNVJPQFFoP05GcHJtWnNHeH"
-            }
-        """
-        serializer = GeneratePayLinkSerializer(
-            data=request.data
-        )
-        serializer.is_valid(
-            raise_exception=True
-        )
-        pay_link = GeneratePayLink(**serializer.validated_data).generate_link()
-
-        return Response({"pay_link": pay_link})
+from courses.models import Course
 
 class OrderListView(ListAPIView):
     queryset = Order.objects.all()
@@ -60,8 +10,113 @@ class OrderListView(ListAPIView):
 
 class OrderDetailView(RetrieveAPIView):
     serializer_class = OrderSerializer
+    queryset = Order.objects.all()
 
-    def get_queryset(self, order_id):
+    def get_object(self):
         order_id = self.kwargs.get("pk")
+        obj = get_object_or_404(self.queryset, order_id=order_id)
+        return obj
 
-        return Order.objects.filter(order_id=order_id)
+
+#PAYMENT Views
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializer import CardInformationSerializer
+import stripe
+
+class PaymentAPI(APIView):
+    serializer_class = CardInformationSerializer
+
+    def post(self, request, course_id):
+        serializer = self.serializer_class(data=request.data)
+        response = {}
+
+        if serializer.is_valid():
+            data_dict = serializer.data
+
+            # Retrieve the Course based on the course_id
+            try:
+                course = Course.objects.get(id=course_id)
+                price = course.price  # Get the price from the Course object
+            except Course.DoesNotExist:
+                return Response({'detail': 'Course not found.'}, status=status.HTTP_NOT_FOUND)
+
+            stripe.api_key = 'your-key-goes-here'
+            response = self.stripe_card_payment(data_dict=data_dict, price=price)
+
+            if response.get('status') == status.HTTP_200_OK:
+                # Payment was successful, update the 'paid' field in the Order model
+                order, created = Order.objects.get_or_create(user=request.user, course=course)
+                order.paid = True
+                order.save()
+
+        else:
+            response = {'errors': serializer.errors, 'status': status.HTTP_400_BAD_REQUEST}
+
+        return Response(response)
+
+    def stripe_card_payment(self, data_dict,price):
+        try:
+            card_details = {
+                "type": "card",
+                "card": {
+                    "number": data_dict['card_number'],
+                    "exp_month": data_dict['expiry_month'],
+                    "exp_year": data_dict['expiry_year'],
+                    "cvc": data_dict['cvc'],
+                }
+            }
+
+            payment_intent = stripe.PaymentIntent.create(
+                amount=price * 100,
+                currency='usd',
+                payment_method_types=['card'],
+            )
+
+            payment_intent_modified = stripe.PaymentIntent.modify(
+                payment_intent['id'],
+                payment_method=card_details['id'],
+            )
+
+            try:
+                payment_confirm = stripe.PaymentIntent.confirm(
+                    payment_intent['id']
+                )
+                payment_intent_modified = stripe.PaymentIntent.retrieve(payment_intent['id'])
+
+            except stripe.StripeError as e:
+                payment_intent_modified = stripe.PaymentIntent.retrieve(payment_intent['id'])
+                payment_confirm = {
+                    "stripe_payment_error": "Failed",
+                    "code": e.code,
+                    "message": e.user_message,
+                    'status': "Failed"
+                }
+
+            if payment_intent_modified.status == 'succeeded':
+                response = {
+                    'message': "Card Payment Success",
+                    'status': status.HTTP_200_OK,
+                    "card_details": card_details,
+                    "payment_intent": payment_intent_modified,
+                    "payment_confirm": payment_confirm
+                }
+            else:
+                response = {
+                    'message': "Card Payment Failed",
+                    'status': status.HTTP_400_BAD_REQUEST,
+                    "card_details": card_details,
+                    "payment_intent": payment_intent_modified,
+                    "payment_confirm": payment_confirm
+                }
+        except stripe.StripeError as e:
+            response = {
+                'error': str(e),
+                'status': status.HTTP_400_BAD_REQUEST,
+                "payment_intent": {"id": "Null"},
+                "payment_confirm": {'status': "Failed"}
+            }
+
+        return response

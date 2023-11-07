@@ -26,6 +26,11 @@ class ArticleSerializer(serializers.ModelSerializer):
     category = BlogCategorySerializer()
     image = BlogImageSerializer(many=True)
     author = UserSerializer()
+    views = serializers.SerializerMethodField()
+
+    def get_views(self,obj):
+            count = obj.views.count()
+            return count
     class Meta:
         model = Article
         fields = [
@@ -38,4 +43,5 @@ class ArticleSerializer(serializers.ModelSerializer):
             "slug",
             "comments",
             "category",
+            "views",
         ]

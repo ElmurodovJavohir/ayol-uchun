@@ -29,7 +29,7 @@ SECRET_KEY = "s+02m12-qoy_zk=@mkgp6egc016xmr6%&!4^8^imc+i-pplcdj"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "common",
     "courses",
     "notification",
+    "payment",
     # Third party apps
     "ckeditor",
     "ckeditor_uploader",
@@ -53,7 +54,6 @@ INSTALLED_APPS = [
     "django_filters",
     "rest_framework_swagger",
     "drf_yasg",
-    'payme',
 ]
 
 MIDDLEWARE = [
@@ -173,11 +173,5 @@ CKEDITOR_RESTRICT_BY_USER = True
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
-PAYME: dict = {
-    'PAYME_ID': env.str("PAYME_ID"),
-    'PAYME_KEY': env.str("PAYME_KEY"),
-    'PAYME_URL': env.str("PAYME_URL"),
-    'PAYME_CALL_BACK_URL': env.str("PAYME_CALL_BACK_URL"),
-    'PAYME_MIN_AMOUNT': env.int("PAYME_MIN_AMOUNT", default=0),
-    'PAYME_ACCOUNT': env.str("PAYME_ACCOUNT"),
-}
+STRIPE_SECRET_KEY = 'sk_test_51O9vs5BVPCMSCWGtmhwjyZMiaG39TuwofBzjJZCe11BvNzMvc4Wln5DtwqKYZWjhb7sQhAWQEE80IX0TQ0jgyJ0700qIclt9aU'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51O9vs5BVPCMSCWGtA9aDSdtqWrKXRylOzJ0f2Pnt5jQhBYbjwtK5xCbrLtKxkznyZ6WdkntDvVdcZRycKLVZ1vSq005bASS7Zy'
