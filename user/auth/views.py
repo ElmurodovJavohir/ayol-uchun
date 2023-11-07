@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from ..models import User
 from .serializer import RegisterSerializer,UserSerializer
 from rest_framework.response import Response
 
@@ -9,7 +7,7 @@ from django.shortcuts import render
 from rest_framework import generics
 # Create your views here.
 class RegisterGenericApiView(generics.GenericAPIView):
-    serializer_class=RegisterSerializer()
+    serializer_class=RegisterSerializer
 
     def post(self,request,*args,**kwrags):
         serializer=self.get_serializer(data=request.data)
