@@ -12,7 +12,7 @@ class BlogImagesInline(admin.TabularInline):
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    inlines = [CommentInLine, BlogImagesInline]
+    inlines = [CommentInLine]
 
 
 admin.site.register(Article, ArticleAdmin)
