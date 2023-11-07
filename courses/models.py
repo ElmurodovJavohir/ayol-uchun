@@ -2,6 +2,7 @@ from django.db import models
 from user.models import User
 from utils.models import BaseModel
 from uuid import uuid4
+
 class Course(BaseModel):
     title = models.CharField(max_length=255)
     description = models.TextField()
