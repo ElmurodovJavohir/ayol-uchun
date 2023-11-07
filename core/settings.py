@@ -37,15 +37,18 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "ckeditor",
-    "ckeditor_uploader",
-    "rest_framework",
     "user",
     "blog",
     "common",
     "courses",
     "notification",
+    # Third party apps
+    "ckeditor",
+    "ckeditor_uploader",
+    "rest_framework",
     "django_filters",
+    "rest_framework_swagger",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [

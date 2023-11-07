@@ -14,9 +14,16 @@ class BlogCommentSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class BlogImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlogImages
+        fields = "__all__"
+
+
 class ArticleSerializer(serializers.ModelSerializer):
     comments = BlogCommentSerializer(many=True)
     category = BlogCategorySerializer()
+    image = BlogImageSerializer(many=True)
 
     class Meta:
         model = Article
@@ -25,9 +32,9 @@ class ArticleSerializer(serializers.ModelSerializer):
             "updated_at",
             "title",
             "body",
+            "image",
             "author",
             "slug",
             "comments",
             "category",
-            # "hit_count",
         ]

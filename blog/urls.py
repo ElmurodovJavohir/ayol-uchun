@@ -11,12 +11,8 @@ urlpatterns = [
     # API urls
     path("categorys/", BlogCategoryAPIView.as_view(), name="blog-categorys"),
     path("", ArticleListAPIView.as_view(), name="article-list"),
-    path(
-        "<slug:slug>/",
-        ArticleDetailAPIView.as_view(),
-        name="article-detail",
-    ),
+    path("<slug:slug>/",ArticleDetailAPIView.as_view(),name="article-detail"),
     path("create/", ArticleCreateAPIView.as_view(), name="article-create"),
     path("edit/<slug:slug>/", ArticleUpdateAPIView.as_view(), name="article-update"),
-    path("delete/<slug:slug>/", ArticleDetailAPIView.as_view(), name="article-update"),
+    path("delete/<slug:slug>/", ArticleDeleteAPIView.as_view(), name="article-update"),
 ]
