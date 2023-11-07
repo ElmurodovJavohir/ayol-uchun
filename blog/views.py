@@ -8,7 +8,7 @@ from rest_framework.generics import (
     RetrieveAPIView,
     UpdateAPIView,
     DestroyAPIView,
-    ListCreateAPIView,
+    CreateAPIView,
 )
 from .serializers import *
 from rest_framework import permissions
@@ -93,7 +93,7 @@ class ArticleDetailAPIView(RetrieveAPIView):
         return Article.objects.filter(slug=article_slug)
 
 
-class ArticleCreateAPIView(ListCreateAPIView):
+class ArticleCreateAPIView(CreateAPIView):
     queryset = Article.objects.all()
     # permission_classes = [permissions.IsAuthenticated]
     serializer_class = ArticleSerializer
