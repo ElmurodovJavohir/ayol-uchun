@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,6 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "ckeditor",
+    "ckeditor_uploader",
     "rest_framework",
     "user",
     "blog",
@@ -80,12 +81,8 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "ayoluchunblog",  # Replace with your database name
-        "USER": "postgres",  # Replace with your database username
-        "PASSWORD": "zxcv",  # Replace with your database password
-        "HOST": "localhost",  # Set the host where your PostgreSQL server is running
-        "PORT": "5432",  # Leave empty to use the default PostgreSQL port (5432)
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 

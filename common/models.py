@@ -29,3 +29,29 @@ class UsersRule(BaseModel):
     class Meta:
         verbose_name = 'Users Rule'
         verbose_name_plural = 'Users Rules'
+    
+class Connect(BaseModel):
+    phone = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='images/')
+    email = models.EmailField(unique=True, blank=True)
+    address  = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return str(self.phone)
+    
+    class Meta:
+        verbose_name = 'Connect'
+        verbose_name_plural = 'Connects'
+    
+class Contact(BaseModel):
+    name = models.CharField(max_length=255)
+    email = models.EmailField(unique=True, blank=True)
+    phone = models.CharField(max_length=255)
+    message = models.TextField()
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = 'Contact'
+        verbose_name_plural = 'Contacts'
