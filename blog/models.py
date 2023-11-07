@@ -2,8 +2,6 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils.text import slugify
-from hitcount.models import HitCount
-from django.contrib.contenttypes.fields import GenericRelation
 
 
 class BlogCategory(models.Model):
@@ -31,11 +29,6 @@ class Article(models.Model):
     )
     slug = models.SlugField(unique=True, editable=False)
     category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE)
-    hit_count_generic = GenericRelation(
-        HitCount,
-        object_id_field="object_pk",
-        related_query_name="hit_count_generic_relation",
-    )
 
     def __str__(self):
         return self.title

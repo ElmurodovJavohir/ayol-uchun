@@ -20,8 +20,11 @@ class User(AbstractBaseUser):
     gender = models.CharField(
         max_length=255, choices=GenderChoise.choices, default=GenderChoise.FEMALE)
 
-    first_name = models.CharField(max_length=50, null=True, blank=True)
-    last_name = models.CharField(max_length=50, null=True, blank=True)
+    first_name = models.CharField(max_length=50,)
+    last_name = models.CharField(max_length=50,)
+
+    
+
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
