@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from ckeditor.fields import RichTextField
 
 
 class BlogCategory(models.Model):
@@ -18,7 +19,7 @@ class BlogImages(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
-    body = models.TextField()
+    body = RichTextField()
     photo = models.ForeignKey(BlogImages, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
