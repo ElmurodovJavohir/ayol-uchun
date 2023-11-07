@@ -31,18 +31,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "ckeditor",
-    "ckeditor_uploader",
-    "rest_framework",
-    "user",
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    'ckeditor',
+    'ckeditor_uploader',
+    'rest_framework',
+    'user',
     "blog",
-    "common",
+    'common',
+    # 'courses'
 ]
 
 MIDDLEWARE = [
@@ -126,8 +128,32 @@ AUTH_USER_MODEL = "user.User"
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
+<<<<<<< HEAD
 STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]
 STATIC_ROOT = str(BASE_DIR.joinpath("staticfiles"))
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = str(BASE_DIR.joinpath("media"))
+=======
+STATICFILES_DIRS = [str(BASE_DIR.join("static"))]
+STATIC_ROOT = str(BASE_DIR.join("staticfiles"))  # new
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = str(BASE_DIR.join("media"))
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+#CKEDITOR SETTINGS
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source']
+        ]
+    }
+}
+CKEDITOR_RESTRICT_BY_USER = True
+CKEDITOR_UPLOAD_PATH = "uploads/"
+>>>>>>> 5e5d4b9f1962b2e527cb0eb838711deb055829eb

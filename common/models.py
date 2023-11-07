@@ -1,9 +1,8 @@
 from django.db import models
 
-from utils.models import BaseModel
 
 # Create your models here.
-class Advertisement(BaseModel):
+class Advertisement(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     image = models.ImageField(upload_to='images')
@@ -16,7 +15,7 @@ class Advertisement(BaseModel):
         verbose_name = 'Advertisement'
         verbose_name_plural = 'Advertisements'
         
-class UsersRule(BaseModel):
+class UsersRule(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     image = models.ImageField(upload_to='images/')
@@ -30,7 +29,7 @@ class UsersRule(BaseModel):
         verbose_name = 'Users Rule'
         verbose_name_plural = 'Users Rules'
     
-class Connect(BaseModel):
+class Connect(models.Model):
     phone = models.CharField(max_length=50)
     image = models.ImageField(upload_to='images/')
     email = models.EmailField(unique=True, blank=True)
@@ -43,7 +42,7 @@ class Connect(BaseModel):
         verbose_name = 'Connect'
         verbose_name_plural = 'Connects'
     
-class Contact(BaseModel):
+class Contact(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True, blank=True)
     phone = models.CharField(max_length=255)
