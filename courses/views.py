@@ -18,6 +18,9 @@ class IsCourseRatingOwner(permissions.BasePermission):
 class CourseList(generics.ListAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    filterset_fields = ["price","average_rating"]
+    search_fields = ["title","description",]
+    ordering_fields = ["average_rating"]
 
 class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()

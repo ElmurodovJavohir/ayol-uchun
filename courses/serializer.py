@@ -9,7 +9,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
 class VideoSerializer(serializers.ModelSerializer):
     course = CourseSerializer()
-    watched_by = UserSerializer()
+    watched_by = UserSerializer(many=True)
     class Meta:
         model = Video
         fields = '__all__'
