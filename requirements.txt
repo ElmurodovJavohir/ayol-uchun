@@ -1,0 +1,14 @@
+asgiref==3.7.2
+Django==4.1
+django-ckeditor-5==0.2.10
+djangorestframework==3.14.0
+Pillow==10.1.0
+pytz==2023.3.post1
+djangorestframework-simplejwt==5.3.0
+django-rest-swagger==2.2.0
+drf-yasg==1.21.7
+environs==9.5.0
+qrcode==7.4.2
+stripe==7.3.0
+sqlparse
+typing_extensions
