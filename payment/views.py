@@ -3,6 +3,10 @@ from .serializer import OrderSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .models import Order
 from courses.models import Course
+from environ import Env
+
+env = Env()
+env.read_env()
 
 class OrderListView(ListAPIView):
     queryset = Order.objects.all()
@@ -44,7 +48,7 @@ class PaymentAPI(APIView):
             except Course.DoesNotExist:
                 return Response({'detail': 'Course not found.'}, status=status.HTTP_NOT_FOUND)
 
-            stripe.api_key = 'sk_test_51O9vs5BVPCMSCWGtmhwjyZMiaG39TuwofBzjJZCe11BvNzMvc4Wln5DtwqKYZWjhb7sQhAWQEE80IX0TQ0jgyJ0700qIclt9aU'
+            stripe.api_key = env.str("STRIPE_SECRET_KEY")
             response = self.stripe_card_payment(data_dict=data_dict, price=price)
 
             if response.get('status') == status.HTTP_200_OK:
