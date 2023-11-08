@@ -6,7 +6,7 @@ from .models import User, Job
 class JobSerailzier(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = ['title']
+        fields = ['id', 'title']
 
 
 class UserSerializer(serializers.ModelSerializer):

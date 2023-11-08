@@ -2,7 +2,7 @@ from django.urls import path
 from .auth.views import RegisterGenericApiView
 from rest_framework_simplejwt import views as jwt_views
 
-from .views import UserProfileView, UserProfileUpdateView, JobListView
+from .views import UserProfileView, JobListView
 
 urlpatterns = [
     path('register/', RegisterGenericApiView.as_view()),
@@ -13,7 +13,5 @@ urlpatterns = [
 
 urlpatterns += [
     path('user/profile/<int:pk>/', UserProfileView.as_view(), name='user-profile'),
-    path('user/update/<int:pk>/',
-         UserProfileUpdateView.as_view(), name='user-update'),
     path('job/', JobListView.as_view(), name='job-list')
 ]
