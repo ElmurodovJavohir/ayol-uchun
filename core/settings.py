@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "rest_framework_swagger",
     "drf_yasg",
 
+<<<<<<< HEAD
 =======
     'django.contrib.admin',
     'django.contrib.auth',
@@ -67,6 +68,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'common',
 >>>>>>> 0d4524e (commonapp)
+=======
+>>>>>>> main
 ]
 
 MIDDLEWARE = [
