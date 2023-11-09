@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+<<<<<<< HEAD
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -56,6 +57,16 @@ INSTALLED_APPS = [
     "rest_framework_swagger",
     "drf_yasg",
 
+=======
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'common',
+>>>>>>> 0d4524e (commonapp)
 ]
 
 MIDDLEWARE = [

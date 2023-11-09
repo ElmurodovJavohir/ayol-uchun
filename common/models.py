@@ -1,14 +1,20 @@
 from django.db import models
 
+<<<<<<< HEAD
 
 
 # Create your models here.
     
+=======
+>>>>>>> 0d4524e (commonapp)
 from utils.models import BaseModel
 
 # Create your models here.
 class Advertisement(BaseModel):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0d4524e (commonapp)
     title = models.CharField(max_length=255)
     description = models.TextField()
     image = models.ImageField(upload_to='images')
@@ -21,7 +27,10 @@ class Advertisement(BaseModel):
         verbose_name = 'Advertisement'
         verbose_name_plural = 'Advertisements'
         
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0d4524e (commonapp)
 class UsersRule(BaseModel):
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -35,6 +44,7 @@ class UsersRule(BaseModel):
     class Meta:
         verbose_name = 'Users Rule'
         verbose_name_plural = 'Users Rules'
+<<<<<<< HEAD
 
     
 class Connect(models.Model):
@@ -63,3 +73,6 @@ class Contact(models.Model):
         verbose_name = 'Contact'
         verbose_name_plural = 'Contacts'
 
+=======
+class 
+>>>>>>> 0d4524e (commonapp)
